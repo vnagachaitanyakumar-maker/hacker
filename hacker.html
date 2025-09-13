@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HACKR_FINANCE_MGR v2.1.0</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Terminal Header -->
+    <header class="terminal-header">
+        <div class="terminal-bar">
+            <div class="terminal-buttons">
+                <span class="btn-close"></span>
+                <span class="btn-minimize"></span>
+                <span class="btn-maximize"></span>
+            </div>
+            <div class="terminal-title">root@hackr-finance:~$ ./finance_manager.exe</div>
+            <div class="system-status">
+                <span id="current-time"></span>
+                <span class="status-indicator online">ONLINE</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dashboard -->
+    <main class="dashboard">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">$</span>
+                <span class="logo-text">HACKR_FIN</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-section="dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">DASHBOARD</span>
+                </li>
+                <li class="nav-item" data-section="expenses">
+                    <span class="nav-icon">💳</span>
+                    <span class="nav-text">EXPENSES</span>
+                </li>
+                <li class="nav-item" data-section="analytics">
+                    <span class="nav-icon">📈</span>
+                    <span class="nav-text">ANALYTICS</span>
+                </li>
+                <li class="nav-item" data-section="goals">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-text">GOALS</span>
+                </li>
+                <li class="nav-item" data-section="alerts">
+                    <span class="nav-icon">🚨</span>
+                    <span class="nav-text">ALERTS</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Content Area -->
+        <div class="content">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2 class="section-title">> FINANCIAL_OVERVIEW.exe</h2>
+                    <div class="terminal-prompt">
+                        <span class="prompt-text">hackr@finance:~$</span>
+                        <span class="cursor-blink">_</span>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">TOTAL_BALANCE</div>
+                        <div class="stat-value" id="total-balance">$0.00</div>
+                        <div class="stat-change positive" id="balance-change">+0.00%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">MONTHLY_SPENT</div>
+                        <div class="stat-value" id="monthly-spent">$0.00</div>
+                        <div class="stat-change negative" id="spent-change">+0.00%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">BUDGET_LEFT</div>
+                        <div class="stat-value" id="budget-left">$0.00</div>
+                        <div class="stat-change" id="budget-change">0.00%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-header">SAVINGS_RATE</div>
+                        <div class="stat-value" id="savings-rate">0%</div>
+                        <div class="stat-change positive" id="savings-change">+0.00%</div>
+                    </div>
+                </div>
+
+                <div class="dashboard-charts">
+                    <div class="chart-container">
+                        <h3 class="chart-title">> SPENDING_ANALYSIS.py</h3>
+                        <canvas id="spending-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="chart-title">> CATEGORY_BREAKDOWN.js</h3>
+                        <canvas id="category-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="recent-transactions">
+                    <h3 class="section-subtitle">> RECENT_TRANSACTIONS.log</h3>
+                    <div class="transaction-list" id="recent-transactions">
+                        <!-- Transactions will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Expenses Section -->
+            <section id="expenses" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">> EXPENSE_TRACKER.exe</h2>
+                </div>
+
+                <div class="expense-input">
+                    <h3 class="section-subtitle">> ADD_NEW_EXPENSE.sh</h3>
+                    <form id="expense-form" class="terminal-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>AMOUNT:</label>
+                                <input type="number" id="expense-amount" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <label>DESCRIPTION:</label>
+                                <input type="text" id="expense-description" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>CATEGORY:</label>
+                                <select id="expense-category">
+                                    <option value="auto">AUTO_DETECT</option>
+                                    <option value="food">FOOD_DRINKS</option>
+                                    <option value="transport">TRANSPORT</option>
+                                    <option value="entertainment">ENTERTAINMENT</option>
+                                    <option value="education">EDUCATION</option>
+                                    <option value="shopping">SHOPPING</option>
+                                    <option value="utilities">UTILITIES</option>
+                                    <option value="other">OTHER</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>DATE:</label>
+                                <input type="date" id="expense-date" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">EXECUTE_ADD</button>
+                    </form>
+                </div>
+
+                <div class="expense-list">
+                    <h3 class="section-subtitle">> EXPENSE_DATABASE.db</h3>
+                    <div class="expense-filters">
+                        <select id="filter-category">
+                            <option value="all">ALL_CATEGORIES</option>
+                            <option value="food">FOOD_DRINKS</option>
+                            <option value="transport">TRANSPORT</option>
+                            <option value="entertainment">ENTERTAINMENT</option>
+                            <option value="education">EDUCATION</option>
+                            <option value="shopping">SHOPPING</option>
+                            <option value="utilities">UTILITIES</option>
+                            <option value="other">OTHER</option>
+                        </select>
+                        <input type="month" id="filter-month">
+                        <button id="apply-filters" class="btn-secondary">FILTER_DATA</button>
+                    </div>
+                    <div class="expense-table" id="expense-table">
+                        <!-- Expense table will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">> PREDICTIVE_ANALYTICS.py</h2>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3 class="card-title">> SPENDING_PREDICTION.ai</h3>
+                        <div class="prediction-display">
+                            <div class="prediction-item">
+                                <span class="prediction-label">NEXT_MONTH_ESTIMATE:</span>
+                                <span class="prediction-value" id="next-month-prediction">$0.00</span>
+                            </div>
+                            <div class="prediction-item">
+                                <span class="prediction-label">CONFIDENCE_LEVEL:</span>
+                                <span class="prediction-value" id="prediction-confidence">0%</span>
+                            </div>
+                        </div>
+                        <canvas id="prediction-chart"></canvas>
+                    </div>
+
+                    <div class="analytics-card">
+                        <h3 class="card-title">> SPENDING_PATTERNS.ml</h3>
+                        <div class="pattern-analysis" id="pattern-analysis">
+                            <!-- Pattern analysis will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trend-analysis">
+                    <h3 class="section-subtitle">> TREND_ANALYSIS.R</h3>
+                    <canvas id="trend-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- Goals Section -->
+            <section id="goals" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">> GOAL_TRACKER.exe</h2>
+                </div>
+
+                <div class="goal-input">
+                    <h3 class="section-subtitle">> CREATE_NEW_GOAL.sh</h3>
+                    <form id="goal-form" class="terminal-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>GOAL_NAME:</label>
+                                <input type="text" id="goal-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>TARGET_AMOUNT:</label>
+                                <input type="number" id="goal-amount" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>DEADLINE:</label>
+                                <input type="date" id="goal-deadline" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CATEGORY:</label>
+                                <select id="goal-category">
+                                    <option value="savings">SAVINGS</option>
+                                    <option value="emergency">EMERGENCY_FUND</option>
+                                    <option value="education">EDUCATION</option>
+                                    <option value="travel">TRAVEL</option>
+                                    <option value="gadget">GADGETS</option>
+                                    <option value="other">OTHER</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">INITIALIZE_GOAL</button>
+                    </form>
+                </div>
+
+                <div class="goals-list" id="goals-list">
+                    <!-- Goals will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Alerts Section -->
+            <section id="alerts" class="section">
+                <div class="section-header">
+                    <h2 class="section-title">> ALERT_SYSTEM.exe</h2>
+                </div>
+
+                <div class="alert-settings">
+                    <h3 class="section-subtitle">> CONFIGURE_ALERTS.cfg</h3>
+                    <form id="alert-form" class="terminal-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>BUDGET_LIMIT:</label>
+                                <input type="number" id="budget-limit" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>ALERT_THRESHOLD:</label>
+                                <select id="alert-threshold">
+                                    <option value="50">50%</option>
+                                    <option value="75">75%</option>
+                                    <option value="90">90%</option>
+                                    <option value="100">100%</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary">UPDATE_CONFIG</button>
+                    </form>
+                </div>
+
+                <div class="alerts-display">
+                    <h3 class="section-subtitle">> ACTIVE_ALERTS.log</h3>
+                    <div class="alerts-list" id="alerts-list">
+                        <!-- Alerts will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Notification System -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <!-- Scripts -->
+    <script src="finance-manager.js"></script>
+</body>
+</html>
